@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://yourusername.github.io/pooja-crochet-portfolio/sitemap.xml
+
+# Disallow crawling of certain files
+Disallow: /assets/images/placeholder-generator.js
+Disallow: /.git/
+Disallow: /node_modules/

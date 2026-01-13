@@ -149,104 +149,46 @@ function handleNavbarScroll() {
 
 // ===== IMAGE LOADING FUNCTIONS =====
 /**
- * Load gallery images dynamically from assets folder
- * This function simulates loading images from a folder structure
+ * Load gallery images dynamically from configuration
  */
 function loadImages() {
-    // Sample gallery data - In a real implementation, this would come from a server or file system
-    galleryImages = [
-        {
-            src: './assets/images/gallery/amigurumi-1.jpg',
-            title: 'Cute Amigurumi Bear',
-            description: 'Handcrafted teddy bear with premium cotton yarn',
-            category: 'amigurumi',
-            alt: 'Handmade crochet teddy bear'
-        },
-        {
-            src: './assets/images/gallery/accessories-1.jpg',
-            title: 'Cozy Winter Scarf',
-            description: 'Warm and stylish scarf perfect for cold days',
-            category: 'accessories',
-            alt: 'Handmade crochet winter scarf'
-        },
-        {
-            src: './assets/images/gallery/home-decor-1.jpg',
-            title: 'Decorative Cushion Cover',
-            description: 'Beautiful cushion cover with intricate patterns',
-            category: 'home-decor',
-            alt: 'Handmade crochet cushion cover'
-        },
-        {
-            src: './assets/images/gallery/baby-items-1.jpg',
-            title: 'Baby Blanket',
-            description: 'Soft and gentle blanket for your little one',
-            category: 'baby-items',
-            alt: 'Handmade crochet baby blanket'
-        },
-        {
-            src: './assets/images/gallery/amigurumi-2.jpg',
-            title: 'Amigurumi Unicorn',
-            description: 'Magical unicorn with rainbow mane',
-            category: 'amigurumi',
-            alt: 'Handmade crochet unicorn'
-        },
-        {
-            src: './assets/images/gallery/accessories-2.jpg',
-            title: 'Stylish Hat',
-            description: 'Trendy beanie hat for all seasons',
-            category: 'accessories',
-            alt: 'Handmade crochet beanie hat'
-        },
-        {
-            src: './assets/images/gallery/home-decor-2.jpg',
-            title: 'Wall Hanging',
-            description: 'Bohemian style wall decoration',
-            category: 'home-decor',
-            alt: 'Handmade crochet wall hanging'
-        },
-        {
-            src: './assets/images/gallery/baby-items-2.jpg',
-            title: 'Baby Booties',
-            description: 'Adorable booties for tiny feet',
-            category: 'baby-items',
-            alt: 'Handmade crochet baby booties'
-        }
-    ];
+    // Load gallery images from configuration
+    galleryImages = WEBSITE_CONFIG?.images?.gallery || [];
+    
+    // If no gallery images in config, create placeholder message
+    if (galleryImages.length === 0) {
+        console.warn('No gallery images found in configuration. Please add images to WEBSITE_CONFIG.images.gallery');
+        galleryImages = [{
+            src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkdhbGxlcnkgSW1hZ2VzIENvbWluZyBTb29uPC90ZXh0Pjwvc3ZnPg==',
+            title: 'Gallery Coming Soon',
+            description: 'New gallery images will be added soon',
+            category: 'all',
+            alt: 'Gallery images coming soon'
+        }];
+    }
     
     renderGalleryImages();
 }
 
 /**
- * Load product data
+ * Load product data from configuration
  */
 function loadProducts() {
-    // Sample product data
-    productImages = [
-        {
-            src: './assets/images/products/product-1.jpg',
-            title: 'Premium Baby Set',
-            description: 'Complete set including blanket, hat, and booties',
-            price: '$45.00',
-            badge: 'Popular',
-            alt: 'Handmade crochet baby set'
-        },
-        {
-            src: './assets/images/products/product-2.jpg',
-            title: 'Amigurumi Collection',
-            description: 'Set of 3 adorable amigurumi animals',
-            price: '$35.00',
-            badge: 'New',
-            alt: 'Handmade amigurumi collection'
-        },
-        {
-            src: './assets/images/products/product-3.jpg',
-            title: 'Home Decor Bundle',
-            description: 'Cushion covers and table runner set',
-            price: '$55.00',
-            badge: 'Best Seller',
-            alt: 'Handmade home decor bundle'
-        }
-    ];
+    // Load products from configuration
+    productImages = WEBSITE_CONFIG?.images?.products || [];
+    
+    // If no products in config, create placeholder message
+    if (productImages.length === 0) {
+        console.warn('No product images found in configuration. Please add images to WEBSITE_CONFIG.images.products');
+        productImages = [{
+            src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2R1Y3RzIENvbWluZyBTb29uPC90ZXh0Pjwvc3ZnPg==',
+            title: 'Products Coming Soon',
+            description: 'New products will be featured here soon',
+            price: 'TBA',
+            badge: 'Coming Soon',
+            alt: 'Products coming soon'
+        }];
+    }
     
     renderProducts();
 }

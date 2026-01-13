@@ -138,6 +138,7 @@ a {
     transition: var(--transition-medium);
     position: relative;
     overflow: hidden;
+    outline: none;
 }
 
 .btn-primary {
@@ -149,6 +150,16 @@ a {
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--shadow-light), 0 8px 25px var(--shadow-medium);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px var(--shadow-light);
 }
 
 .btn-secondary {
@@ -163,6 +174,15 @@ a {
     transform: translateY(-2px);
 }
 
+.btn-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--shadow-light);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
 .btn-outline {
     background: transparent;
     color: var(--text-dark);
@@ -173,6 +193,15 @@ a {
     background: var(--text-dark);
     color: var(--white);
     border-color: var(--text-dark);
+}
+
+.btn-outline:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--shadow-light);
+}
+
+.btn-outline:active {
+    transform: translateY(0);
 }
 
 .btn-full {
@@ -758,14 +787,56 @@ section {
     font-size: 1rem;
     transition: var(--transition-fast);
     background: var(--white);
+    outline: none;
 }
 
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-sm) center;
+    padding-right: calc(var(--spacing-sm) + 20px);
+    cursor: pointer;
+}
+
+/* Remove default browser styling for all form inputs */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.form-group input::-webkit-outer-spin-button,
+.form-group input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.form-group select::-ms-expand {
+    display: none;
+}
+
+/* Consistent focus styles for all form inputs - using box-shadow instead of outline */
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--shadow-light);
+    outline: none !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px var(--shadow-light) !important;
+}
+
+/* Remove any browser default active states */
+.form-group input:active,
+.form-group select:active,
+.form-group textarea:active {
+    outline: none !important;
+    border-color: var(--primary-color) !important;
 }
 
 .form-group textarea {
@@ -1147,16 +1218,17 @@ section {
     }
 }
 
-/* Focus styles for keyboard navigation */
-.btn:focus,
+/* Focus styles for keyboard navigation - buttons use box-shadow (defined above) */
 .nav-link:focus,
-.filter-btn:focus,
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.filter-btn:focus {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
+
+/* Buttons already have focus styles defined above with box-shadow */
+
+/* Form inputs use box-shadow for focus (already defined above) - no outline needed */
+/* This prevents double borders while maintaining accessibility */
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {

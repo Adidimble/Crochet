@@ -8,9 +8,9 @@ const WEBSITE_CONFIG = {
     // Personal Information
     owner: {
         name: 'Pooja Rawool',
-        email: 'pooja.rawool@example.com', // UPDATE: Replace with your real email
-        instagram: '@pooja_crochet_creations', // UPDATE: Replace with your Instagram handle
-        yearsOfExperience: 5, // UPDATE: Replace with your actual years of experience
+        email: 'pooja.rawool@gmail.com', // UPDATE: Replace with your real email
+        instagram: '@pooohhh10', // UPDATE: Replace with your Instagram handle
+        yearsOfExperience: 1, // UPDATE: Replace with your actual years of experience
         responseTime: 'Usually within 24 hours' // UPDATE: Your typical response time
     },
     
@@ -24,7 +24,7 @@ const WEBSITE_CONFIG = {
     
     // Social Media Links
     social: {
-        instagram: 'https://instagram.com/pooja_crochet_creations', // UPDATE: Your Instagram URL
+        instagram: 'https://instagram.com/pooohhh10', // UPDATE: Your Instagram URL
         pinterest: 'https://pinterest.com/your_username', // UPDATE: Your Pinterest URL (optional)
         facebook: 'https://facebook.com/your_page', // UPDATE: Your Facebook page URL (optional)
         etsy: '', // UPDATE: Your Etsy shop URL (optional)
@@ -34,13 +34,12 @@ const WEBSITE_CONFIG = {
     // Business Information
     business: {
         location: 'Your City, Country', // UPDATE: Your location
-        established: 2020, // UPDATE: Year you started crocheting professionally
+        established: 2026, // UPDATE: Year you started crocheting professionally
         specialties: ['Amigurumi', 'Baby Items', 'Home Decor', 'Accessories', 'Custom Orders'],
-        priceRange: '$15 - $150', // UPDATE: Your typical price range
+        priceRange: '₹300 - ₹550', // UPDATE: Your typical price range
         customOrders: true,
         shipping: {
-            domestic: '3-5 business days',
-            international: '7-14 business days'
+            domestic: '3-5 business days'
         }
     },
     
@@ -69,11 +68,80 @@ const WEBSITE_CONFIG = {
         thankYouMessage: 'Thank you for your message! I\'ll get back to you soon.'
     },
     
+    // Images Configuration
+    images: {
+        // Hero Section Image
+        hero: './assets/images/gallery/Pooja.jpg', // Using Pooja's photo as hero
+        
+        // About Section Image  
+        about: './assets/images/gallery/Pooja.jpg', // Photo of Pooja working on crochet
+        
+        // Social Media Share Image
+        ogImage: './assets/images/gallery/Pooja.jpg',
+        
+        // Gallery Images
+        gallery: [
+            {
+                src: './assets/images/gallery/Pooja.jpg',
+                title: 'Pooja at Work',
+                description: 'Pooja creating beautiful crochet pieces with love and attention to detail',
+                category: 'amigurumi',
+                alt: 'Pooja Rawool working on crochet projects'
+            }
+            // Note: Add more gallery images here as you create them
+            // Structure: { src: 'path', title: 'Title', description: 'Description', category: 'category', alt: 'Alt text' }
+        ],
+        
+        // Product Images
+        products: [
+            {
+                src: './assets/images/products/Product_1.jpg',
+                title: 'Handcrafted Crochet Scarf',
+                description: 'Beautiful handmade crochet piece crafted with premium materials',
+                price: '₹700',
+                badge: 'Popular',
+                alt: 'Handmade crochet product by Pooja Rawool'
+            },
+            {
+                src: './assets/images/products/Product_2.jpg',
+                title: 'Handcrafted Crochet Scarf',
+                description: 'Unique crochet design perfect for gifts or home decoration',
+                price: '₹600',
+                badge: 'New',
+                alt: 'Handmade crochet product by Pooja Rawool'
+            },
+            {
+                src: './assets/images/products/Product_3.jpg',
+                title: 'Handcrafted Crochet Keychain',
+                description: 'Elegant crochet piece showcasing traditional techniques',
+                price: '₹150',
+                badge: 'Featured',
+                alt: 'Handmade crochet product by Pooja Rawool'
+            },
+            {
+                src: './assets/images/products/Product_4.jpg',
+                title: 'Handcrafted Crochet Flower',
+                description: 'Colorful and vibrant crochet design for modern homes',
+                price: '₹300',
+                badge: 'Trending',
+                alt: 'Handmade crochet product by Pooja Rawool'
+            },
+            {
+                src: './assets/images/products/Product_5.jpg',
+                title: 'Handcrafted Crochet Beanie',
+                description: 'Premium crochet creation with intricate patterns and details',
+                price: '₹350',
+                badge: 'Best Seller',
+                alt: 'Handmade crochet product by Pooja Rawool'
+            }
+        ]
+    },
+
     // SEO Settings
     seo: {
         keywords: 'crochet, handmade, crafts, Pooja Rawool, handcrafted, yarn, knitting, accessories, amigurumi, baby items',
         author: 'Pooja Rawool',
-        ogImage: '/assets/images/hero-crochet.jpg'
+        ogImage: './assets/images/gallery/Pooja.jpg'
     },
     
     // Feature Flags

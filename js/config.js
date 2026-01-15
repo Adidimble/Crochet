@@ -65,7 +65,14 @@ const WEBSITE_CONFIG = {
             { value: 'other', label: 'Other' }
         ],
         autoReply: true,
-        thankYouMessage: 'Thank you for your message! I\'ll get back to you soon.'
+        thankYouMessage: 'Thank you for your message! I\'ll get back to you soon.',
+        // EmailJS Configuration
+        // Get these values from https://dashboard.emailjs.com/admin
+        emailjs: {
+            serviceId: 'service_1ghwi7k', // UPDATE: Your EmailJS Service ID (e.g., 'service_xxxxx')
+            templateId: 'template_b21yng2', // UPDATE: Your EmailJS Template ID (e.g., 'template_xxxxx')
+            publicKey: 'nrOfl03UcUCuND6YA' // UPDATE: Your EmailJS Public Key (e.g., 'xxxxxxxxxxxxx')
+        }
     },
     
     // Images Configuration

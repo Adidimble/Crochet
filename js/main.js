@@ -348,11 +348,31 @@ function closeModal() {
 }
 
 // ===== FORM HANDLING =====
+/**
+ * Handle contact form submission using EmailJS
+ */
 function handleContactForm(e) {
     e.preventDefault();
     
     const formData = new FormData(contactForm);
     const data = Object.fromEntries(formData);
+    
+    // Get EmailJS configuration
+    const emailjsConfig = WEBSITE_CONFIG?.contact?.emailjs;
+    
+    // Check if EmailJS is configured
+    if (!emailjsConfig || !emailjsConfig.serviceId || !emailjsConfig.templateId || !emailjsConfig.publicKey) {
+        console.warn('EmailJS is not configured. Please add your EmailJS credentials to config.js');
+        showNotification('Email service is not configured. Please contact directly via email.', 'error');
+        return;
+    }
+    
+    // Check if EmailJS is loaded
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS SDK is not loaded. Please check if the script is included in index.html');
+        showNotification('Email service is not available. Please try again later.', 'error');
+        return;
+    }
     
     // Show loading state
     const submitBtn = contactForm.querySelector('button[type="submit"]');
@@ -360,8 +380,31 @@ function handleContactForm(e) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
     
-    // Simulate form submission (replace with actual form handling)
-    setTimeout(() => {
+    // Prepare email template parameters
+    // These parameter names must match your EmailJS template variables
+    // Template uses: {{name}}, {{message}}, {{time}}
+    const templateParams = {
+        name: data.name,                    // Matches {{name}} in template
+        message: data.message,              // Matches {{message}} in template
+        time: new Date().toLocaleString(),  // Matches {{time}} in template (optional)
+        // Additional fields for email configuration
+        from_email: data.email,             // Sender's email
+        subject: getSubjectLabel(data.subject), // Email subject
+        reply_to: data.email                // Reply-to address
+    };
+    
+    // Initialize EmailJS with public key
+    emailjs.init(emailjsConfig.publicKey);
+    
+    // Send email using EmailJS
+    emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        templateParams
+    )
+    .then((response) => {
+        console.log('Email sent successfully!', response.status, response.text);
+        
         // Reset form
         contactForm.reset();
         
@@ -372,7 +415,26 @@ function handleContactForm(e) {
         // Reset button
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-    }, 2000);
+    })
+    .catch((error) => {
+        console.error('Failed to send email:', error);
+        
+        // Show error message
+        showNotification('Failed to send message. Please try again or contact directly via email.', 'error');
+        
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
+
+/**
+ * Get subject label from value
+ */
+function getSubjectLabel(value) {
+    const subjects = WEBSITE_CONFIG?.contact?.subjects || [];
+    const subject = subjects.find(s => s.value === value);
+    return subject ? subject.label : value;
 }
 
 function contactForProduct(productTitle) {
@@ -419,19 +481,36 @@ function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
+    
+    // Determine icon based on type
+    let iconClass = 'info-circle';
+    if (type === 'success') {
+        iconClass = 'check-circle';
+    } else if (type === 'error') {
+        iconClass = 'exclamation-circle';
+    }
+    
     notification.innerHTML = `
         <div class="notification-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <i class="fas fa-${iconClass}"></i>
             <span>${message}</span>
         </div>
     `;
+    
+    // Determine background color based on type
+    let bgColor = '#2196F3'; // Default info color
+    if (type === 'success') {
+        bgColor = '#4CAF50';
+    } else if (type === 'error') {
+        bgColor = '#f44336';
+    }
     
     // Add styles
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#4CAF50' : '#2196F3'};
+        background: ${bgColor};
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;

@@ -1034,11 +1034,9 @@ section {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -1219,11 +1217,7 @@ section {
 }
 
 /* Focus styles for keyboard navigation - buttons use box-shadow (defined above) */
-.nav-link:focus,
-.filter-btn:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
+
 
 /* Buttons already have focus styles defined above with box-shadow */
 

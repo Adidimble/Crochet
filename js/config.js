@@ -8,7 +8,7 @@ const WEBSITE_CONFIG = {
     // Personal Information
     owner: {
         name: 'Pooja Rawool',
-        email: 'pooja.rawool@gmail.com', // UPDATE: Replace with your real email
+        email: 'poojarawool2005@gmail.com', // UPDATE: Replace with your real email
         instagram: '@pooohhh10', // UPDATE: Replace with your Instagram handle
         yearsOfExperience: 1, // UPDATE: Replace with your actual years of experience
         responseTime: 'Usually within 24 hours' // UPDATE: Your typical response time

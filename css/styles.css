@@ -1232,3 +1232,101 @@ section {
         --border-color: #666;
     }
 }
+
+/* ===== MOBILE-SPECIFIC STYLES ===== */
+.mobile-device {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: text;
+}
+
+.mobile-device .hero-description,
+.mobile-device .about-text,
+.mobile-device .contact-form,
+.mobile-device .gallery-info,
+.mobile-device .product-description {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Touch-optimized elements for mobile */
+@media (max-width: 768px) {
+    .btn {
+        min-height: 48px;
+        padding: 12px 24px;
+        font-size: 16px;
+        -webkit-tap-highlight-color: rgba(212, 165, 116, 0.3);
+    }
+    
+    .nav-link {
+        padding: 16px 20px;
+        font-size: 18px;
+        -webkit-tap-highlight-color: rgba(212, 165, 116, 0.3);
+    }
+    
+    .filter-btn {
+        padding: 12px 20px;
+        margin: 5px;
+        min-height: 44px;
+        -webkit-tap-highlight-color: rgba(212, 165, 116, 0.3);
+    }
+    
+    .gallery-item {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(212, 165, 116, 0.3);
+        transition: transform 0.1s ease;
+    }
+    
+    .gallery-item:active {
+        transform: scale(0.98);
+    }
+    
+    input, textarea, select {
+        font-size: 16px;
+        padding: 16px;
+        min-height: 48px;
+    }
+    
+    .modal-close {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+    }
+    
+    .contact-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+/* Mobile loading spinner */
+.mobile-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Pull-to-refresh hint animation */
+@keyframes pullHintBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* Hardware acceleration for smooth scrolling */
+.gallery-grid,
+.products-grid {
+    transform: translateZ(0);
+    -webkit-overflow-scrolling: touch;
+}

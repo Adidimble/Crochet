@@ -10,6 +10,12 @@ let productImages = [];
 let currentImageIndex = 0;
 let imagesPerLoad = WEBSITE_CONFIG?.gallery?.imagesPerLoad || 6;
 
+// Mobile interaction variables
+let touchStartX = 0;
+let touchStartY = 0;
+let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+let isTouch = 'ontouchstart' in window;
+
 // ===== DOM ELEMENTS =====
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('nav-toggle');
@@ -42,6 +48,12 @@ function initializeApp() {
     loadProducts();
     setupIntersectionObserver();
     populateContactForm();
+    
+    // Mobile-specific setup
+    if (isMobile || isTouch) {
+        setupMobileInteractions();
+        optimizeForMobile();
+    }
     
     // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -689,6 +701,253 @@ function updateDynamicContent() {
     }
 }
 
+// ===== MOBILE INTERACTIONS =====
+/**
+ * Setup mobile-specific interactions and touch gestures
+ */
+function setupMobileInteractions() {
+    // Add touch events to gallery items for better mobile interaction
+    if (galleryGrid) {
+        setupGallerySwipe();
+    }
+    
+    // Improve mobile navigation
+    setupMobileNavigation();
+    
+    // Add touch feedback to buttons
+    addTouchFeedback();
+    
+    // Setup modal swipe gestures
+    setupModalSwipe();
+}
+
+/**
+ * Setup swipe gestures for gallery navigation
+ */
+function setupGallerySwipe() {
+    galleryGrid.addEventListener('touchstart', handleTouchStart, { passive: true });
+    galleryGrid.addEventListener('touchend', handleTouchEnd, { passive: true });
+}
+
+/**
+ * Handle touch start for swipe detection
+ */
+function handleTouchStart(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+}
+
+/**
+ * Handle touch end for swipe detection
+ */
+function handleTouchEnd(e) {
+    if (!touchStartX || !touchStartY) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+    
+    // Only process horizontal swipes (ignore vertical scrolling)
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+            // Swipe left - load more images if available
+            if (loadMoreBtn && loadMoreBtn.style.display !== 'none') {
+                loadMoreImages();
+                showNotification('Loading more images...', 'info');
+            }
+        }
+        // Swipe right could be used for other actions if needed
+    }
+    
+    // Reset touch coordinates
+    touchStartX = 0;
+    touchStartY = 0;
+}
+
+/**
+ * Improve mobile navigation behavior
+ */
+function setupMobileNavigation() {
+    // Close mobile menu when touching outside
+    document.addEventListener('touchstart', (e) => {
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+            }
+        }
+    });
+    
+    // Add haptic feedback on navigation (if supported)
+    navLinks.forEach(link => {
+        link.addEventListener('touchstart', () => {
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Short vibration feedback
+            }
+        });
+    });
+}
+
+/**
+ * Add visual and haptic feedback to interactive elements
+ */
+function addTouchFeedback() {
+    const interactiveElements = document.querySelectorAll('button, .btn, .filter-btn, .gallery-item, .product-card');
+    
+    interactiveElements.forEach(element => {
+        // Add touch start effect
+        element.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+            this.style.transition = 'transform 0.1s ease';
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(30);
+            }
+        }, { passive: true });
+        
+        // Remove touch effect
+        element.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 100);
+        }, { passive: true });
+        
+        // Also remove on touch cancel
+        element.addEventListener('touchcancel', function() {
+            this.style.transform = 'scale(1)';
+        }, { passive: true });
+    });
+}
+
+/**
+ * Setup modal swipe gestures for mobile
+ */
+function setupModalSwipe() {
+    if (imageModal) {
+        imageModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        imageModal.addEventListener('touchend', (e) => {
+            if (!touchStartX || !touchStartY) return;
+            
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            
+            // Swipe down to close modal
+            if (diffY < -50 && Math.abs(diffY) > Math.abs(diffX)) {
+                closeModal();
+            }
+            
+            touchStartX = 0;
+            touchStartY = 0;
+        }, { passive: true });
+    }
+}
+
+/**
+ * Optimize interface for mobile devices
+ */
+function optimizeForMobile() {
+    // Add mobile-specific classes to body
+    document.body.classList.add('mobile-device');
+    
+    // Optimize viewport for mobile
+    let viewport = document.querySelector('meta[name=viewport]');
+    if (!viewport) {
+        viewport = document.createElement('meta');
+        viewport.name = 'viewport';
+        document.head.appendChild(viewport);
+    }
+    viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes';
+    
+    // Add loading indicator for slow mobile connections
+    let loadingIndicator = document.querySelector('.mobile-loading');
+    if (!loadingIndicator) {
+        loadingIndicator = document.createElement('div');
+        loadingIndicator.className = 'mobile-loading';
+        loadingIndicator.innerHTML = '<div class="spinner"></div><p>Loading...</p>';
+        loadingIndicator.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+        `;
+        document.body.appendChild(loadingIndicator);
+    }
+    
+    // Preload critical images for mobile
+    preloadMobileImages();
+    
+    // Add pull-to-refresh hint
+    addPullToRefreshHint();
+}
+
+/**
+ * Preload images for better mobile performance
+ */
+function preloadMobileImages() {
+    const criticalImages = [
+        WEBSITE_CONFIG?.images?.hero,
+        WEBSITE_CONFIG?.images?.about
+    ].filter(Boolean);
+    
+    criticalImages.forEach(src => {
+        if (src) {
+            const img = new Image();
+            img.src = src;
+        }
+    });
+}
+
+/**
+ * Add pull-to-refresh visual hint for mobile users
+ */
+function addPullToRefreshHint() {
+    let pullHint = document.querySelector('.pull-refresh-hint');
+    if (!pullHint) {
+        pullHint = document.createElement('div');
+        pullHint.className = 'pull-refresh-hint';
+        pullHint.innerHTML = '↓ Pull down to refresh';
+        pullHint.style.cssText = `
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 0 0 20px 20px;
+            font-size: 14px;
+            z-index: 1000;
+            transition: top 0.3s ease;
+        `;
+        document.body.appendChild(pullHint);
+    }
+    
+    // Show hint briefly when page loads on mobile
+    setTimeout(() => {
+        pullHint.style.top = '10px';
+        setTimeout(() => {
+            pullHint.style.top = '-50px';
+        }, 2000);
+    }, 1000);
+}
+
 // ===== EXPORT FOR TESTING (if needed) =====
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
@@ -698,6 +957,8 @@ if (typeof module !== 'undefined' && module.exports) {
         openModal,
         closeModal,
         populateContactForm,
-        updateDynamicContent
+        updateDynamicContent,
+        setupMobileInteractions,
+        optimizeForMobile
     };
 }

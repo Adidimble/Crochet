@@ -140,6 +140,22 @@ const WEBSITE_CONFIG = {
                 price: '₹350',
                 badge: 'Best Seller',
                 alt: 'Handmade crochet product by Pooja Rawool'
+            },
+            {
+            src: './assets/images/products/Product_6.jpg',
+            title: 'Handcrafted Crochet Keychain',
+            description: 'Cute and durable handmade crochet keychain, perfect for adding a personal touch to your keys, bags, or gifts',
+            price: '₹100',
+            badge: 'Best Seller',
+            alt: 'Handmade crochet keychain by Pooja Rawool'
+            },
+            {
+            src: './assets/images/products/Product_7.jpg',
+            title: 'Handcrafted Crochet Hairclip',
+            description: 'Elegant handmade crochet hairclip designed to enhance your hairstyle with a soft, stylish, and unique touch',
+            price: '₹120',
+            badge: 'Best Seller',
+            alt: 'Handmade crochet hairclip by Pooja Rawool'
             }
         ]
     },
